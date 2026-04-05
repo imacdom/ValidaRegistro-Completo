@@ -77,30 +77,21 @@ public class GestionRegistro {
 
     public void validarRegistro(Solicitud solicitud) {
 
-        if (verificacionSolicitud.verificarSolicitud(solicitud)) {
+        if (verificacionSolicitud.verificarSolicitud(solicitud)&&!solicitudesValidas.loginDuplicado(solicitud)) {
             solicitudesValidas.putSolicitud(solicitud);
             utilES.mostrarMensajeln(VERDE + "Solicitud válida: " + RESET + solicitud);
         } else {
             utilES.mostrarMensajeln(ROJO + "Solicitud inválida: " + RESET + solicitud);
             utilES.mostrarMensajeln("   (Hay campos con menos de "
-                    + verificacionSolicitud.getCaracteresMinimos() + " caracteres " +
-                    "o el correo no contiene un único @)");
+                    + verificacionSolicitud.getCaracteresMinimos() + " caracteres, " +
+                    "el correo no contiene un único @ o el login está duplicado)");
         }
     }
 
 
-    public void copiarRegistro()throws IOException{
-        File nuevoArchivo;
-        String nombreNuevoArchivo;
-
-        nombreNuevoArchivo= nombrarArchivo();
-        nuevoArchivo= new File(nombreNuevoArchivo);
+    public void copiarRegistro(File nuevoArchivo)throws IOException{
 
         try(PrintWriter pr = new PrintWriter(new FileWriter(nuevoArchivo, true))) {
-            //Salto de línea si ya existe
-            if (nuevoArchivo.exists() && nuevoArchivo.length() > 0) {
-                pr.println();
-            }
 
             for (Solicitud solicitud : solicitudesValidas.solicitudes()) {
                 pr.println(solicitud);

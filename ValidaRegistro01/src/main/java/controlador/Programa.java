@@ -10,25 +10,33 @@ import java.io.*;
 import static controlador.ColorTexto.*;
 
 public class Programa {
-    UtilidadesES utilES;
-    VerificacionSolicitud verificacionSolicitud;
+    UtilidadesES utilES = new UtilidadesES(new BufferedReader(new InputStreamReader(System.in)), System.out);
+    VerificacionSolicitud  verificacionSolicitud= new VerificacionSolicitud();
+    GestionRegistro gr= new GestionRegistro(utilES, verificacionSolicitud);
 
     public void ejecutar() throws IOException {
 
-        utilES = new UtilidadesES(new BufferedReader(new InputStreamReader(System.in)), System.out);
-        verificacionSolicitud= new VerificacionSolicitud();
-        GestionRegistro gr= new GestionRegistro(utilES, verificacionSolicitud);
+
         File archivo;
         String nombreArchivo;
+        utilES.mostrarMensajeln("---LEER REGISTRO---");
+        do {
+            nombreArchivo = gr.nombrarArchivo();
+            archivo = new File(nombreArchivo);
+            if(!archivo.exists()){
+                utilES.mostrarMensajeln("El archivo no exite o no contiene registros.");
+            }
+        }while(!archivo.exists());
+        gr.leerarchivo(archivo);
 
+        utilES.mostrarMensajeln("\n---COPIAR REGISTRO---");
 
         nombreArchivo = gr.nombrarArchivo();
         archivo = new File(nombreArchivo);
 
-        gr.leerarchivo(archivo);
-        utilES.mostrarMensajeln("");
-        gr.copiarRegistro();
+        gr.copiarRegistro(archivo);
     }
+
 
 
 }

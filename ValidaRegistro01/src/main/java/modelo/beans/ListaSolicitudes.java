@@ -12,9 +12,12 @@ public class ListaSolicitudes {
         listaSolicitudes =new HashMap<String, Solicitud>();
     }
 
-
     public void putSolicitud(Solicitud solicitud){
-            listaSolicitudes.put(solicitud.getLogin(), solicitud);
+        listaSolicitudes.put(solicitud.getLogin(), solicitud);
+    }
+
+    public boolean loginDuplicado(Solicitud solicitud){
+        return listaSolicitudes.containsKey(solicitud.getLogin());
     }
 
     public Collection<Solicitud> solicitudes(){
