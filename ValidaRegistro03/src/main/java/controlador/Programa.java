@@ -25,7 +25,7 @@ public class Programa {
         }while(!archivo.exists());
         gr.leerarchivo(archivo);
 
-        utilES.mostrarMensajeln("\n---COPIAR REGISTRO---");
+        utilES.mostrarMensajeln("\n---SERIALIZAR REGISTRO---");
 
         nombreArchivo = gr.nombrarArchivo();
         archivo = new File(nombreArchivo);
